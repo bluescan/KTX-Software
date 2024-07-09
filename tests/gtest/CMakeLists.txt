@@ -23,3 +23,8 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "
     )
 endif()
 
+if(WIN32 AND (${LIB_TYPE} STREQUAL STATIC))
+    # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+    set_target_properties(gtest PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()

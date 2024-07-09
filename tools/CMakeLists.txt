@@ -44,6 +44,12 @@ function(set_tool_properties tool_target)
             # - objdump -x <file> | grep 'R.*PATH'
             INSTALL_RPATH "$ORIGIN;$ORIGIN/../lib"
         )
+    elseif(WIN32)
+        if(${LIB_TYPE} STREQUAL STATIC)
+            # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+            set_target_properties(${tool_target} PROPERTIES
+            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        endif()
     endif()
 endfunction()
 

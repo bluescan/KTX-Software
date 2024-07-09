@@ -519,6 +519,12 @@ macro(common_libktx_settings target enable_write library_type)
         )
     endif()
 
+    if(WIN32 AND (${library_type} STREQUAL STATIC))
+        # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+        set_target_properties(${target} PROPERTIES
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
+
     if( NOT ${library_type} STREQUAL STATIC )
         # Must not call this macro for static libs on Windows. To keep
         # the if test simple, never call it for static libs. On macOS
@@ -1108,6 +1114,12 @@ if(KTX_FEATURE_STATIC_LIBRARY AND
         lib/astc_encode.cpp
         PROPERTIES COMPILE_OPTIONS "-fvisibility=hidden"
     )
+endif()
+
+if(WIN32 AND KTX_FEATURE_STATIC_LIBRARY)
+    # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+    set_target_properties(objUtil PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
 add_subdirectory(interface/basisu_c_binding)

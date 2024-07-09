@@ -70,6 +70,12 @@ target_include_directories(${ASTCENC_TARGET}-static
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:.>)
 
+if(WIN32)
+    # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+    set_target_properties(${ASTCENC_TARGET}-static PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
 if(${ASTCENC_SHAREDLIB})
     add_library(${ASTCENC_TARGET}-shared
         SHARED

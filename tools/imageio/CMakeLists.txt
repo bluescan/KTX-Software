@@ -73,4 +73,10 @@ set_target_properties(imageio PROPERTIES
     CXX_VISIBILITY_PRESET ${STATIC_APP_LIB_SYMBOL_VISIBILITY}
 )
 
+if(WIN32 AND (${LIB_TYPE} STREQUAL STATIC))
+    # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+    set_target_properties(imageio PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
 target_link_libraries(imageio fmt::fmt)

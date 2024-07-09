@@ -309,6 +309,12 @@ target_include_directories(fmt ${FMT_SYSTEM_HEADERS_ATTRIBUTE} PUBLIC
 
 set(FMT_DEBUG_POSTFIX d CACHE STRING "Debug library postfix.")
 
+if(WIN32 AND (${LIB_TYPE} STREQUAL STATIC))
+    # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+    set_target_properties(fmt PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
 set_target_properties(fmt PROPERTIES
   VERSION ${FMT_VERSION} SOVERSION ${CPACK_PACKAGE_VERSION_MAJOR}
   PUBLIC_HEADER "${FMT_HEADERS}"

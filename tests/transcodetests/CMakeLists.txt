@@ -69,4 +69,11 @@ if(WIN32)
             BASISU_NO_ITERATOR_DEBUG_LEVEL
         )
     target_link_libraries(transcodetests obj_tmp_basisu)
+
+    if(${LIB_TYPE} STREQUAL STATIC)
+        # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+        set_target_properties(objUtil PROPERTIES
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
+
 endif()

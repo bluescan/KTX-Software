@@ -11,6 +11,12 @@ function(set_test_properties test_target)
         set_target_properties(${test_target} PROPERTIES
             INSTALL_RPATH "$ORIGIN;$ORIGIN/../lib"
         )
+	elseif(WIN32)
+        if(${LIB_TYPE} STREQUAL STATIC)
+            # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+            set_target_properties(${test_target} PROPERTIES
+            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        endif()
     endif()
 endfunction()
 

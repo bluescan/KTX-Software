@@ -53,3 +53,9 @@ elseif(APPLE)
         target_compile_options(obj_basisu_cbind PRIVATE "-fembed-bitcode")
     endif()
 endif()
+
+if(WIN32 AND (${LIB_TYPE} STREQUAL STATIC))
+    # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
+    set_target_properties(obj_basisu_cbind PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
