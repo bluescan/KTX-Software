@@ -70,7 +70,7 @@ target_include_directories(${ASTCENC_TARGET}-static
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:.>)
 
-if(WIN32)
+if(WIN32 AND NOT ASTCENC_SHAREDLIB)
     # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
     set_target_properties(${ASTCENC_TARGET}-static PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -416,7 +416,7 @@ if(${ASTCENC_SHAREDLIB})
     astcenc_set_properties(${ASTCENC_TARGET}-shared OFF)
 
     target_compile_definitions(${ASTCENC_TARGET}-shared
-        PRIVATE
+        INTERFACE
             ASTCENC_DYNAMIC_LIBRARY=1)
 
     target_compile_options(${ASTCENC_TARGET}-shared
@@ -425,7 +425,7 @@ if(${ASTCENC_SHAREDLIB})
             $<${is_msvc_fe}:/W4>)
 
     if(NOT ${ASTCENC_UNIVERSAL_BUILD})
-        install(TARGETS ${ASTCENC_TARGET}-shared)
+        install(TARGETS ${ASTCENC_TARGET}-shared EXPORT ASTCENCShared)
     endif()
 endif()
 

@@ -54,7 +54,7 @@ elseif(APPLE)
     endif()
 endif()
 
-if(WIN32 AND (${LIB_TYPE} STREQUAL STATIC))
+if(WIN32 AND KTX_FEATURE_STATIC_LIBRARY)
     # Link MultiThreaded or MultiThreadedDebug runtime for static builds.
     set_target_properties(obj_basisu_cbind PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
