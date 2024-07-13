@@ -416,7 +416,7 @@ if(${ASTCENC_SHAREDLIB})
     astcenc_set_properties(${ASTCENC_TARGET}-shared OFF)
 
     target_compile_definitions(${ASTCENC_TARGET}-shared
-        INTERFACE
+        PUBLIC
             ASTCENC_DYNAMIC_LIBRARY=1)
 
     target_compile_options(${ASTCENC_TARGET}-shared
