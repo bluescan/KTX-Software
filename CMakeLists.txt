@@ -1178,7 +1178,7 @@ if(NOT ${universal_build})
 
     # "" in the CACHE sets causes use of the existing documentation string.
     if(${ASTCENC_ISA_NONE})
-        if(CPU_ARCHITECTURE NOT STREQUAL x86_64)
+        if(NOT CPU_ARCHITECTURE STREQUAL x86_64)
             set(ASTCENC_LIB_TARGET astcenc-none-static)
         else()
             if(KTX_FEATURE_STATIC_LIBRARY)
