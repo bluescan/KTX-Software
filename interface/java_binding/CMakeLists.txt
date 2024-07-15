@@ -67,6 +67,10 @@ if(APPLE OR LINUX)
             COMPONENT jni
     )
 else()
+    if(MSVC AND NOT KTX_FEATURE_STATIC_LIBRARY)
+        install(EXPORT ASTCENCShared
+        DESTINATION ${CMAKE_INSTALL_BINDIR})
+    endif()
     install(TARGETS ktx-jni LIBRARY
         RUNTIME
             DESTINATION ${CMAKE_INSTALL_BINDIR}
